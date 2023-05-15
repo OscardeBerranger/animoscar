@@ -31,4 +31,11 @@ class ProduitController extends AbstractController
             'form'=>$form
         ]);
     }
+
+    #[Route('/show/{id}', name: 'produit_show')]
+    public function show(Produit $produit){
+        return $this->render('produit/show.html.twig', [
+            'produit'=>$produit
+        ]);
+    }
 }

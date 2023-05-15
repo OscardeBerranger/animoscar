@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello GateauController!{% endblock %}
+
+{% block body %}
+
+
+    <div class="card row m-3">
+        <h3> {{ produit.name }} </h3>
+        <p> {{ produit.description }} </p>
+        <p> {{ produit.price }} </p>
+        <a href="{{ path('app_produit') }}" class="btn btn-success">back</a>
+    </div>
+
+
+{% endblock %}

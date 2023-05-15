@@ -9,6 +9,7 @@
             <h3> {{ produit.name }} </h3>
             <p> {{ produit.description }} </p>
             <p> {{ produit.price }} </p>
+            <a href="{{ path('produit_show', {id:produit.id}) }}" class="btn btn-secondary">See</a>
         </div>
 
     {% endfor %}
