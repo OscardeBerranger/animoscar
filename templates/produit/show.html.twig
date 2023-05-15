@@ -9,7 +9,10 @@
         <h3> {{ produit.name }} </h3>
         <p> {{ produit.description }} </p>
         <p> {{ produit.price }} </p>
-        <a href="{{ path('app_produit') }}" class="btn btn-success">back</a>
+        <div class="">
+            <a href="{{ path('app_produit') }}" class="btn btn-success">back</a>
+            <a href="{{ path('produit_delete', {id:produit.id}) }}" class="btn btn-danger">Delete</a>
+        </div>
     </div>
 
 
