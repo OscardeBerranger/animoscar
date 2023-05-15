@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="m-5">
+    {% for produit in produits %}
+
+        <div class="card row m-3">
+            <h3> {{ produit.name }} </h3>
+            <p> {{ produit.description }} </p>
+            <p> {{ produit.price }} </p>
+        </div>
+
+    {% endfor %}
+</div>
+
+{% endblock %}
