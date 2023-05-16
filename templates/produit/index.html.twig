@@ -1,16 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <li class="nav-item dropdown m-5">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Catégories
+        </a>
+        <ul class="dropdown-menu">
+            {% for allCategorie in allCategories %}
+            <li><a class="dropdown-item" href="{{ path('produit_search', {id:allCategorie.id}) }}">{{ allCategorie.name }}</a></li>
+            {% endfor %}
+            <li><a class="dropdown-item" href="{{ path('app_produit') }}">None</a></li>
 
+        </ul>
+    </li>
 <div class="m-5">
     {% for produit in produits %}
 
-        <div class="card row m-3">
-            <h3> {{ produit.name }} </h3>
-            <p> {{ produit.description }} </p>
-            <p> {{ produit.price }} </p>
-            <a href="{{ path('produit_show', {id:produit.id}) }}" class="btn btn-secondary">See</a>
+
+    <div class="card" style="width: 18rem;">
+        {% for image in produit.images %}
+            <img class="card-img-top" src="{{ vich_uploader_asset(image,'imageFile')|imagine_filter('vignette') }}" alt="Card image cap">
+        {% endfor %}
+        <div class="card-body">
+            <h5 class="card-title">{{ produit.name }}</h5>
+            <p class="card-text">{{ produit.description }}</p>
+            <a href="{{ path('produit_show', {id:produit.id}) }}" class="btn btn-primary">See</a>
         </div>
+    </div>
 
     {% endfor %}
 </div>
