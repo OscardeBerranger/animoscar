@@ -10,12 +10,16 @@
             <li><a class="dropdown-item" href="{{ path('produit_search', {id:allCategorie.id}) }}">{{ allCategorie.name }}</a></li>
             {% endfor %}
             <li><a class="dropdown-item" href="{{ path('app_produit') }}">None</a></li>
-
         </ul>
     </li>
 <div class="m-5">
-    {% for produit in produits %}
 
+    {% if app.user %}
+        {% if is_granted("ROLE_ADMIN") %}
+        {% endif %}
+    {% endif %}
+
+    {% for produit in produits %}
 
     <div class="card" style="width: 18rem;">
         {% for image in produit.images %}

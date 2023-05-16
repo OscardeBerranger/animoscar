@@ -34,10 +34,11 @@ class ProduitType extends AbstractType
                 'entry_type'=>ImageType::class,
                 'allow_add'=>true,
                 'allow_delete'=>true,
-                'required'=>true,
+                'required'=>false,
                 'by_reference'=>false,
                 'disabled'=>false,
-                'prototype'=>true
+                'prototype'=>true,
+                'label'=>false
             ])
         ;
     }

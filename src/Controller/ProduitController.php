@@ -45,6 +45,8 @@ class ProduitController extends AbstractController
             'form'=>$form
         ]);
     }
+
+
     #[Route('/admin/edit/{id}', name: 'produit_edit')]
     public function edit(Request $request, EntityManagerInterface $manager, Produit $produit): Response{
 
@@ -67,32 +69,26 @@ class ProduitController extends AbstractController
     }
 
     #[Route('/admin/delete{id}', name: 'produit_delete')]
-    public function delete(Produit $produit, EntityManagerInterface $manager){
-        if ($produit){
-            $manager->remove($produit);
-            $manager->flush();
-        }
+    public function delete(Produit $produit, EntityManagerInterface $manager): Response{
+        $manager->remove($produit);
+        $manager->flush();
         return $this->redirectToRoute('app_produit');
     }
 
     #[Route('/show/{id}', name: 'produit_show')]
-    public function show(Produit $produit){
+    public function show(Produit $produit): Response{
         return $this->render('produit/show.html.twig', [
             'produit'=>$produit
         ]);
     }
 
     #[Route('/search/{id}', name: 'produit_search')]
-    public function search(Categorie $searchCate, ProduitRepository $repository, CategorieRepository $categorieRepository){
-        if($searchCate){
-            return $this->render('produit/index.html.twig', [
-                'produits'=>$repository->findBy([
-                    'categorie'=>$searchCate,
-                ]),
-                'allCategories'=>$categorieRepository->findAll()
-
-            ]);
-        }
-        return $this->redirectToRoute('/');
+    public function search(Categorie $searchCate, ProduitRepository $repository, CategorieRepository $categorieRepository): Response{
+        return $this->render('produit/index.html.twig', [
+            'produits'=>$repository->findBy([
+                'categorie'=>$searchCate,
+            ]),
+            'allCategories'=>$categorieRepository->findAll()
+        ]);
     }
 }

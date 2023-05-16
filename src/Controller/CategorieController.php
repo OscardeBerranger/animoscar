@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategorieController extends AbstractController
 {
-    #[Route('/categorie', name: 'app_categorie')]
+    #[Route('/admin/categorie', name: 'app_categorie')]
     public function create(Request $request, EntityManagerInterface $manager): Response{
         $category = new Categorie();
         $form = $this->createForm(CategorieType::class, $category);
