@@ -46,6 +46,13 @@
                         <a href="{{ path('app_login') }}" class="btn btn-primary">Sign In <i class="bi bi-box-arrow-in-right"></i></a>
                         {% else %}
                         <a href="{{ path('app_logout') }}" class="btn btn-primary">Sign Out <i class="bi bi-box-arrow-left"></i></a>
+
+                            {% if app.user.profile.profilePicture is not null %}
+                                <a href="{{ path('app_profile') }}" class="btn" style="scale: 1.7"><img style="width: 35px; border-radius: 100%" src="{{ vich_uploader_asset(app.user.profile.profilePicture,'imageFile') }}" alt=""></a>
+                            {% else %}
+                                <img style="width: 35px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" alt="">
+                            {% endif %}
+
                     {% endif %}
                 </div>
                 <form class="d-flex" role="search">

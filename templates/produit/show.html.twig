@@ -5,7 +5,7 @@
 {% block body %}
 
 
-    <div class="card row m-3">
+    <div class="card m-3">
         <h3> {{ produit.name }} </h3>
         <p> {{ produit.description }} </p>
         <p> {{ produit.price }} </p>
@@ -16,6 +16,7 @@
                     <a href="{{ path('comment_create', {id:produit.id}) }}" class="btn btn-success">Comment</a>
                 {% endif %}
             </div>
+            <a href="{{ path('app_image', {id:produit.id}) }}" class="btn btn-primary">images</a>
             {% if app.user %}
                 {% if is_granted("ROLE_ADMIN") %}
                     <a href="{{ path('produit_delete', {id:produit.id}) }}" class="btn btn-danger">Delete</a>

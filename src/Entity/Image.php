@@ -4,12 +4,12 @@ namespace App\Entity;
 
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Serializable;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[Vich\Uploadable]
-class Image
+class Image implements Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -30,6 +30,9 @@ class Image
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Produit $produit = null;
+
+    #[ORM\OneToOne(mappedBy: 'profilePicture', cascade: ['persist', 'remove'])]
+    private ?Profile $profile = null;
 
     /**
      * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
@@ -91,5 +94,36 @@ class Image
         $this->produit = $produit;
 
         return $this;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(?Profile $profile): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($profile === null && $this->profile !== null) {
+            $this->profile->setProfilePicture(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($profile !== null && $profile->getProfilePicture() !== $this) {
+            $profile->setProfilePicture($this);
+        }
+
+        $this->profile = $profile;
+
+        return $this;
+    }
+    public function serialize()
+    {
+        return serialize(['id'=>$this->id]);
+    }
+
+    public function unserialize(string $data)
+    {
+        // TODO: Implement unserialize() method.
     }
 }
