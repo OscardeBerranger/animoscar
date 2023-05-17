@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="m-5">
+
+        {% if app.user.profile.profilePicture is not null %}
+                <img src="{{ vich_uploader_asset(app.user.profile.profilePicture,'imageFile') }}" alt="">
+        {% else %}
+                <img style="width: 90px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" alt="">
+        {% endif %}
+
+    {% if app.user.profile.firstname %}
+        <h4>{{ app.user.profile.firstname }}</h4>
+    {% else %}
+        <h4>No first name registered</h4>
+    {% endif %}
+
+
+    {% if app.user.profile.lastname %}
+        <h4>{{ app.user.profile.lastname }}</h4>
+    {% else %}
+        <h4>No last name registered</h4>
+    {% endif %}
+
+
+
+        <a href="{{ path('profile_edit') }}" class="btn btn-success">Change info</a>
+        
+</div>
+
+{% endblock %}
