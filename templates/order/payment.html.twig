@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<div class="container">
+    <h3>Résumé de la commande :</h3>
+
+    <div class="m-5">
+        {% for item in usercart.cart %}
+            <p>{{ item.quantity}} {{ item.product.name }} {{ item.product.price }} € for a total of {{ item.product.price * item.quantity }} €</p>
+        {% endfor %}
+
+        <strong>Total : {{ usercart.total }} €</strong>
+
+        <p>Please select a payment method</p>
+
+        <a href="{{ path('app_order_makeorder', {id:address.id}) }}" class="btn btn-success">Make Order</a>
+
+    </div>
+</div>
+
+{% endblock %}

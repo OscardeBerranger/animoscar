@@ -44,6 +44,47 @@ class CartService
         }
         $this->session->set('sessionCart', $cart);
     }
+    public function getTotal(){
+        $total = 0;
 
-    public function removeProduit(){}
+        foreach ($this->getCart() as $item){
+            $total += $item['product']->getPrice() * $item['quantity'];
+        }
+        return $total;
+    }
+
+    public function removeProduit(Produit $product){
+        $cart = $this->session->get('sessionCart', []);
+        $productId = $product->getId();
+
+        if(isset($cart[$productId])){
+            $cart[$productId]--;
+            if ($cart[$productId]===0){
+                unset($cart[$productId]);
+            }
+        }
+        $this->session->set('sessionCart', $cart);
+    }
+
+    public function emptyCart(){
+        $this->session->remove('sessionCart');
+    }
+    public function count(){
+        $count = 0;
+        $cart = $this->session->get('sessionCart', []);
+
+        foreach ($cart as $quantity){
+            $count+=$quantity;
+        }
+        return $count;
+    }
+    public function removeRow(Produit $product){
+        $cart = $this->session->get('sessionCart', []);
+        $productId = $product->getId();
+
+        if (isset($cart[$productId])){
+            unset($cart[$productId]);
+        }
+        $this->session->set('sessionCart', $cart);
+    }
 }

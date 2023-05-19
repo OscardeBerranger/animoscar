@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MyOrderController!{% endblock %}
+
+{% block body %}
+    <h1>Order index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>CreatedAt</th>
+            <th>Status</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in app.user.profile.orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.total }}</td>
+
+            </tr>
+            <tr>
+                {% for item in order.orderItems %}
+
+                    <p>{{ item.product.name }}</p>
+                {% endfor %}
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

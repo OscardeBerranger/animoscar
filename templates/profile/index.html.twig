@@ -2,31 +2,55 @@
 
 {% block body %}
 
-<div class="m-5">
+<div class="container d-flex flex-column align-items-center">
 
-        {% if app.user.profile.profilePicture is not null %}
-                <img src="{{ vich_uploader_asset(app.user.profile.profilePicture,'imageFile') }}" alt="">
+        <div>
+            {% if app.user.profile.profilePicture is not null %}
+                <img src="{{ vich_uploader_asset(app.user.profile.profilePicture,'imageFile') }}" style="border-radius: 100%;" alt="">
+            {% else %}
+                <img style="width: 90px; height: 90px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" alt="">
+            {% endif %}
+        </div>
+
+    <div>
+        {% if app.user.profile.firstname %}
+            <h4>{{ app.user.profile.firstname }}</h4>
         {% else %}
-                <img style="width: 90px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" alt="">
+            <h4>No first name registered</h4>
         {% endif %}
-
-    {% if app.user.profile.firstname %}
-        <h4>{{ app.user.profile.firstname }}</h4>
-    {% else %}
-        <h4>No first name registered</h4>
-    {% endif %}
+    </div>
 
 
-    {% if app.user.profile.lastname %}
-        <h4>{{ app.user.profile.lastname }}</h4>
-    {% else %}
-        <h4>No last name registered</h4>
-    {% endif %}
+    <div>
+        {% if app.user.profile.lastname %}
+            <h4>{{ app.user.profile.lastname }}</h4>
+        {% else %}
+            <h4>No last name registered</h4>
+        {% endif %}
+    </div>
 
 
+        <h5>Addresse enregistrés</h5>
+
+    <div>
+        {% if app.user.profile.addresses is not null %}
+            {% for addresse in app.user.profile.addresses %}
+                <div class="d-flex align-items-center">
+                    <a class="m-3" href="{{ path('app_addresse_show', {id:addresse.id}) }}">{{ addresse.streetnumber }} {{ addresse.street }} {{ addresse.zipcode }} {{ addresse.city }} {{ addresse.country }}</a>
+                    <a href="{{ path('app_addresse_delete', {id:addresse.id}) }}" class="btn btn-danger">X</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div>
+        <a href="{{ path('app_addresse_new') }}" class="btn btn-success">ajouter une addresse</a>
 
         <a href="{{ path('profile_edit') }}" class="btn btn-success">Change info</a>
+
+        <a href="{{ path('app_my_order') }}" class="btn btn-primary">My order</a>
+    </div>
         
 </div>
+
 
 {% endblock %}

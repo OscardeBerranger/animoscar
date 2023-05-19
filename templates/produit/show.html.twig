@@ -5,33 +5,35 @@
 {% block body %}
 
 
-    <div class="card m-3">
-        <h3> {{ produit.name }} </h3>
-        <p> {{ produit.description }} </p>
-        <p> {{ produit.price }} </p>
-        <div class="">
+    <div class="container">
+        <div class="card m-3">
+            <h3> {{ produit.name }} </h3>
+            <p> {{ produit.description }} </p>
+            <p> {{ produit.price }} </p>
             <div class="">
-                <a href="{{ path('app_produit') }}" class="btn btn-success">back</a>
+                <div class="">
+                    <a href="{{ path('app_produit') }}" class="btn btn-success">back</a>
+                    {% if app.user %}
+                        <a href="{{ path('comment_create', {id:produit.id}) }}" class="btn btn-success">Comment</a>
+                    {% endif %}
+                </div>
+                <a href="{{ path('app_image', {id:produit.id}) }}" class="btn btn-primary">images</a>
                 {% if app.user %}
-                    <a href="{{ path('comment_create', {id:produit.id}) }}" class="btn btn-success">Comment</a>
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('produit_delete', {id:produit.id}) }}" class="btn btn-danger">Delete</a>
+                        <a href="{{ path('produit_edit', {id:produit.id}) }}" class="btn btn-warning">Edit</a>
+                    {% endif %}
                 {% endif %}
             </div>
-            <a href="{{ path('app_image', {id:produit.id}) }}" class="btn btn-primary">images</a>
-            {% if app.user %}
-                {% if is_granted("ROLE_ADMIN") %}
-                    <a href="{{ path('produit_delete', {id:produit.id}) }}" class="btn btn-danger">Delete</a>
-                    <a href="{{ path('produit_edit', {id:produit.id}) }}" class="btn btn-warning">Edit</a>
-                {% endif %}
-            {% endif %}
+            <div class="m-3">
+                {% for comment in produit.comments %}
+                    <h4> {{ comment.name }} </h4>
+                    <p> {{ comment.creator.email }}</p>
+                    <p> {{ comment.content }} </p>
+                {% endfor %}
+            </div>
         </div>
-        <div class="m-3">
-            {% for comment in produit.comments %}
-                <h4> {{ comment.name }} </h4>
-                <p> {{ comment.creator.email }}</p>
-                <p> {{ comment.content }} </p>
-            {% endfor %}
-        </div>
-    </div>
 
+    </div>
 
 {% endblock %}

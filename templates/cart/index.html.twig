@@ -3,38 +3,44 @@
 {% block title %}Hello CartController!{% endblock %}
 
 {% block body %}
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Product</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Subtotal</th>
-            <th scope="col">Buttons</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        {% for item in cart %}
-
-            <tr class="table-active">
-
-                <td>{{ item.product.name }}</td>
-                <td>{{ item.product.price}} €</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.product.price * item.quantity}} €</td>
-                <td>
-
-
-                </td>
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Subtotal</th>
+                <th scope="col">Buttons</th>
             </tr>
-        {% endfor %}
-        <tr class="table-warning">
+            </thead>
+            <tbody>
 
-            <td></td>
-            <td> Grand Total :</td>
-            <td><a href="" class="btn btn-success">Make Order</a></td>
-        </tr>
-        </tbody>
-    </table>
+            {% for item in cart %}
+
+                <tr class="table-active">
+
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.price}} €</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.product.price * item.quantity}} €</td>
+                    <td>
+                        <a href="{{ path('app_cart_removeone', {id:item.product.id}) }}" class="btn btn-secondary"><strong>-</strong></a>
+                        <a href="{{ path('app_cart_add_from_cart', {id:item.product.id, quantity:1}) }}" class="btn btn-success"><strong>+</strong></a>
+                        <a href="{{ path('app_cart_removewhole', {id:item.product.id}) }}" class="btn btn-danger"><strong>X</strong></a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr class="table-warning">
+
+                <td><a href="{{ path('app_cart_emptycart') }}" class="btn btn-danger">Empty cart</a></td>
+                <td></td>
+                <td> Grand Total :</td>
+                <td><strong> {{ total }} €</strong></td>
+                <td><a href="{{ path('app_selecte_addresse') }}" class="btn btn-success">Make Order</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
