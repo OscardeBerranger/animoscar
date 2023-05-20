@@ -6,8 +6,13 @@
 
 
     <div class="container">
-        <div class="card m-3">
+        <div class="card m-3 p-2">
             <h3> {{ produit.name }} </h3>
+            <div class="container">
+                {% for image in produit.images %}
+                    <img class="d-block " src="{{ vich_uploader_asset(image,'imageFile')|imagine_filter('vignette') }}">
+                {% endfor %}
+            </div>
             <p> {{ produit.description }} </p>
             <p> {{ produit.price }} </p>
             <div class="">
@@ -17,7 +22,13 @@
                         <a href="{{ path('comment_create', {id:produit.id}) }}" class="btn btn-success">Comment</a>
                     {% endif %}
                 </div>
-                <a href="{{ path('app_image', {id:produit.id}) }}" class="btn btn-primary">images</a>
+
+                {% if app.user %}
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('app_image', {id:produit.id}) }}" class="btn btn-primary">images</a>
+                    {% endif %}
+                {% endif %}
+
                 {% if app.user %}
                     {% if is_granted("ROLE_ADMIN") %}
                         <a href="{{ path('produit_delete', {id:produit.id}) }}" class="btn btn-danger">Delete</a>
@@ -25,15 +36,18 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <div class="m-3">
-                {% for comment in produit.comments %}
-                    <h4> {{ comment.name }} </h4>
-                    <p> {{ comment.creator.email }}</p>
-                    <p> {{ comment.content }} </p>
-                {% endfor %}
-            </div>
         </div>
-
+        <h5>Commentaires :</h5>
+        <div class="m-5">
+               {% for comment in produit.comments %}
+                   <div class="card m-1 p-2">
+                       <h4> {{ comment.name }} </h4>
+                       <strong >{{ comment.avis }} étoile</strong>
+                       <p> {{ comment.creator.email }}</p>
+                       <p> {{ comment.content }} </p>
+                   </div>
+               {% endfor %}
+        </div>
     </div>
 
 {% endblock %}

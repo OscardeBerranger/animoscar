@@ -30,6 +30,10 @@ class CommentController extends AbstractController
             $comment->setProduit($produit);
             $manager->persist($comment);
             $manager->flush();
+            return $this->render('produit/show.html.twig', [
+                'produit'=>$produit,
+                'id'=>$produit->getId()
+            ]);
         }
         return $this->renderForm('comment/create.html.twig', [
             'commentForm'=>$form

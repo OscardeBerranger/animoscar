@@ -52,7 +52,7 @@
                                 <a href="{{ path('app_cart') }}" class="btn btn-success">Cart ({{ usercart.count }})</a>
                                 {% endif %}
                             {% if app.user.profile.profilePicture is not null %}
-                                <a href="{{ path('app_profile') }}" class="btn" style="scale: 1.7"><img style="width: 25px; border-radius: 100%" src="{{ vich_uploader_asset(app.user.profile.profilePicture,'imageFile') }}" alt=""></a>
+                                <a href="{{ path('app_profile') }}" class="btn" style="scale: 1.7"><img style="width: 25px; border-radius: 100%" src="{{ vich_uploader_asset(app.user.profile.profilePicture,'imageFile')|imagine_filter('vignette') }}" alt=""></a>
                             {% else %}
                                 <a href="{{ path('app_profile') }}" class="btn" style="scale: 1.7"><img style="width: 25px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" alt=""></a>
                             {% endif %}

@@ -14,6 +14,7 @@ class CommentType extends AbstractType
         $builder
             ->add('name')
             ->add('content')
+            ->add('avis')
         ;
     }
 

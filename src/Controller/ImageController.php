@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ImageController extends AbstractController
 {
-    #[Route('/image/{id}', name: 'app_image')]
+    #[Route('/admin/image/{id}', name: 'app_image')]
     public function index(Produit $produit): Response
     {
 
@@ -55,7 +55,7 @@ class ImageController extends AbstractController
     }
 
 
-    #[Route('removefromproduit/{id}', name:'app_image_removefromproduit')]
+    #[Route('/admin/removefromproduit/{id}', name:'app_image_removefromproduit')]
     public function removeFromProduit(Image $image, EntityManagerInterface $manager): Response{
 
         if ($image){

@@ -6,7 +6,7 @@
 
         <div>
             {% if app.user.profile.profilePicture is not null %}
-                <img src="{{ vich_uploader_asset(app.user.profile.profilePicture,'imageFile') }}" style="border-radius: 100%;" alt="">
+                <img src="{{ vich_uploader_asset(app.user.profile.profilePicture,'imageFile')|imagine_filter('vignette') }}" style="border-radius: 100%;" alt="">
             {% else %}
                 <img style="width: 90px; height: 90px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" alt="">
             {% endif %}
