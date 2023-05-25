@@ -26,13 +26,7 @@
                     <a href="{{ path('app_myorder_show', {'id': order.id}) }}">show</a>
                 </td>
             </tr>
-            <tr>
-                {% for item in order.orderItems %}
 
-                    <p>{{ item.product.name }}</p>
-                {% endfor %}
-
-            </tr>
         {% else %}
             <tr>
                 <td colspan="5">no records found</td>

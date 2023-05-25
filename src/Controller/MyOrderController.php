@@ -7,10 +7,10 @@ use App\Repository\OrderRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+#[Route('/myorders')]
 class MyOrderController extends AbstractController
 {
-    #[Route('/my/order', name: 'app_my_order')]
+    #[Route('/order', name: 'app_my_order')]
     public function index(OrderRepository $repository): Response
     {
         return $this->render('my_order/index.html.twig', [
@@ -21,7 +21,7 @@ class MyOrderController extends AbstractController
     }
 
 
-    #[Route('/my/order/{symfony id}', name: 'app_myorder_show', methods: 'GET')]
+    #[Route('/order/{id}', name: 'app_myorder_show', methods: 'GET')]
     public function show(Order $order){
         if ($this->getUser()->getProfile() !==$order->getProfile()){
             $this->addFlash('warning', '

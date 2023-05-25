@@ -17,7 +17,9 @@ class AddresseController extends AbstractController
     public function index(AddresseRepository $addresseRepository): Response
     {
         return $this->render('addresse/index.html.twig', [
-            'addresses' => $addresseRepository->findAll(),
+            'addresses' => $addresseRepository->findBy([
+                'profile'=>$this->getUser()->getProfile()
+            ]),
         ]);
     }
 

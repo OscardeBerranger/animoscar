@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -20,20 +22,33 @@ class HomeController extends AbstractController
     }
 
 
-    #[Route('/home/testmail', name: 'app_home_testmail')]
-    public function testmail(MailerInterface $mailer, Environment $twig){
-        $html = $twig->render('home/mail.html.twig', [
-            'var'=>'ceci est une facture'
-        ]);
+    #[Route('/home/testmail/{id}', name: 'app_home_testmail')]
+    public function testmail(Order $order, MailerInterface $mailer, Environment $twig, Pdf $pdfmaker){
 
+        $html = $twig->render('home/facture.html.twig',[
+            'order'=> $order
+        ]);
+        $pdf = $pdfmaker->getOutputFromHtml($html);
         $email = (new Email())
-            ->from()
-            ->to('lucj6778@gmail.com')
-            ->subject('Envoie de mail opérationnel.')
-            ->text('Je peut envoyer des email automatiquement :)');
+            ->from('contact@oscadeberranger.com')
+            ->to($order->getProfile()->getOfUser()->getEmail())
+            ->subject('Commande récente pour votre animal.')
+            ->text('Voici la facture de votre commande récente sure animoscaro.oscadeberranger.com merci et à bientot :)')
+            ->attach($pdf, sprintf('facture.pdf'));
         $mailer->send($email);
-        dd($email);
         $this->addFlash('success', 'mail envoyé');
         return $this->redirectToRoute('app_produit');
+    }
+
+    #[Route('/home/makepdf/{id}', name: 'app_home_makepdf')]
+    public function makePdf(Order $order, MailerInterface $mailer, Pdf $pdfmaker, Environment $twig){
+        $html = $twig->render('home/facture.html.twig',[
+            'order'=> $order
+        ]);
+        $pdf = $pdfmaker->getOutputFromHtml($html);
+        $pdfmaker->generateFromHtml($html, "pdfs/".$order->getId().".pdf");
+        return $this->render('home/facture.html.twig',[
+            'order'=>$order
+        ]);
     }
 }

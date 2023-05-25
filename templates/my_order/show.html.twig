@@ -15,7 +15,6 @@
         </tr>
         </thead>
         <tbody>
-        {% for order in app.user.profile.orders %}
             <tr>
                 <td>{{ order.id }}</td>
                 <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
@@ -23,18 +22,16 @@
                 <td>{{ order.total }}</td>
 
             </tr>
-            <tr>
-                {% for item in order.orderItems %}
-
-                    <p>{{ item.product.name }}</p>
-                {% endfor %}
-
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
         </tbody>
     </table>
+    <h4>Items :</h4>
+    {% for item in order.orderItems %}
+        <div class="d-flex">
+            <div class="d-flex m-3">
+                <p>{{ item.product.name }} </p>
+                <p>{{ item.product.price }} €</p>
+            </div>
+            <a href="{{ path('produit_show', {id:item.product.id}) }}" class="btn btn-secondary m-3">view</a>
+        </div>
+    {% endfor %}
 {% endblock %}

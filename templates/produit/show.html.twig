@@ -14,7 +14,42 @@
                 {% endfor %}
             </div>
             <p> {{ produit.description }} </p>
-            <p> {{ produit.price }} </p>
+            <p> {{ produit.price }} €</p>
+
+
+            <strong>Rate : {{ produit.averageMark }}</strong>
+
+            {% if app.user %}
+                {% for i in 1..5 %}
+                    {% if produit.getAverageMark() < i %}
+                        <i class="bi bi-star"></i>
+                        {% else %}
+                         <i class="bi bi-star-fill"></i>
+                    {% endif %}
+
+                {% endfor %}
+            {% else %}
+            <div class="rate">
+                {% if app.user %}
+                    {% if produit.isRatedBy(app.user) %}
+                        {% for i in 1..5 %}
+                            {% if produit.getRateByUser(app.user).stars < i %}
+                                <a href="{{ path('app_rate', {id:produit.id, stars:i}) }}"><i class="bi bi-star"></i></a>
+                            {% else %}
+                                <a href="{{ path('app_rate', {id:produit.id, stars:i}) }}"><i class="bi bi-star-fill"></i></a>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for i in 1..5 %}
+                            <a href="{{ path('app_rate', {id:produit.id, stars:i}) }}"><i class="bi bi-star"></i></a>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+                {% endif %}
+            </div>
+
+
+
             <div class="">
                 <div class="">
                     <a href="{{ path('app_produit') }}" class="btn btn-success">back</a>
@@ -41,11 +76,11 @@
         <div class="m-5">
                {% for comment in produit.comments %}
                    <div class="card m-1 p-2">
-                       <h4> {{ comment.name }} </h4>
-                       <strong >{{ comment.avis }} étoile</strong>
+                       <h4> {{ comment.name }}</h4>
                        <p> {{ comment.creator.email }}</p>
                        <p> {{ comment.content }} </p>
                    </div>
+                   <a href="{{ path('app_comment_delete', {id:comment.id}) }}" class="btn btn-danger">delete</a>
                {% endfor %}
         </div>
     </div>

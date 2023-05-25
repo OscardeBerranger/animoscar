@@ -31,11 +31,14 @@ class Produit
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
 
-    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Comment::class)]
+    #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Comment::class,  cascade: ["persist", "remove"])]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderItem::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderItem::class,  cascade: ["persist", "remove"])]
     private Collection $orderItems;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Rate::class, orphanRemoval: true)]
+    private Collection $rates;
 
 
     public function __construct()
@@ -43,6 +46,7 @@ class Produit
         $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->orderItems = new ArrayCollection();
+        $this->rates = new ArrayCollection();
     }
 
 
@@ -188,6 +192,76 @@ class Produit
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Rate>
+     */
+    public function getRates(): Collection
+    {
+        return $this->rates;
+    }
+
+    public function addRate(Rate $rate): self
+    {
+        if (!$this->rates->contains($rate)) {
+            $this->rates->add($rate);
+            $rate->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRate(Rate $rate): self
+    {
+        if ($this->rates->removeElement($rate)) {
+            // set the owning side to null (unless already changed)
+            if ($rate->getProduct() === $this) {
+                $rate->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    public function getAverageMark(){
+        $productRate = $this->rates;
+        $total = 0;
+        $rateAmmout = 0;
+
+        foreach ($productRate as $rate){
+            $rateAmmout +=1;
+            $total+=$rate->getMark();
+        }
+        $response = null;
+        if ($rateAmmout !==0){
+            $response = $total/$rateAmmout;
+        }
+        return $response;
+    }
+
+    public function getRateByUser(User $user){
+        $rates = $this->getRates();
+        $userRate = null;
+
+        foreach ($rates as $rate){
+            if ($rate->getAuthor()===$user){
+                $userRate = $rate;
+            }
+        }
+        return $userRate;
+    }
+
+    public function isRatedBy(User $user):bool
+    {
+        foreach ($this->rates as $rate){
+            if($rate->getAuthor() === $user){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
 }

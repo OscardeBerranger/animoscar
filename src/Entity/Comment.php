@@ -26,8 +26,6 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?Produit $produit = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $avis = null;
 
     public function getId(): ?int
     {
@@ -82,15 +80,4 @@ class Comment
         return $this;
     }
 
-    public function getAvis(): ?int
-    {
-        return $this->avis;
-    }
-
-    public function setAvis(?int $avis): self
-    {
-        $this->avis = $avis;
-
-        return $this;
-    }
 }

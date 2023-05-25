@@ -29,7 +29,7 @@ class OrderController extends AbstractController
 
 
     #[Route('/makeorder/{id}', name: 'app_order_makeorder')]
-    public function makeOrder(Addresse $addresse, CartService $cartService, EntityManagerInterface $manager): Response{
+    public function makeOrder(HomeController $controller, Addresse $addresse, CartService $cartService, EntityManagerInterface $manager): Response{
         if (!$this->getUser()){
             return $this->redirectToRoute('app_produit');
         }
@@ -55,6 +55,7 @@ class OrderController extends AbstractController
 
         $this->addFlash('success', 'order confirmed');
 
-        return $this->redirectToRoute('app_myorder_show', ['id'=>$order->getId()]);
+        return $this->redirectToRoute('app_home_testmail', ['id'=>$order->getId()]);
+//        return $this->redirectToRoute('app_myorder_show', ['id'=>$order->getId()]);
     }
 }

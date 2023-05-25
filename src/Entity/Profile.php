@@ -34,10 +34,15 @@ class Profile
     #[ORM\OneToMany(mappedBy: 'profile', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Rate::class, orphanRemoval: true)]
+    private Collection $rates;
+
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
         $this->orders = new ArrayCollection();
+        $this->rates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,4 +157,39 @@ class Profile
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Rate>
+     */
+
+    /**
+     * @return Collection<int, Rate>
+     */
+    public function getRates(): Collection
+    {
+        return $this->rates;
+    }
+
+    public function addRate(Rate $rate): self
+    {
+        if (!$this->rates->contains($rate)) {
+            $this->rates->add($rate);
+            $rate->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRate(Rate $rate): self
+    {
+        if ($this->rates->removeElement($rate)) {
+            // set the owning side to null (unless already changed)
+            if ($rate->getAuthor() === $this) {
+                $rate->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

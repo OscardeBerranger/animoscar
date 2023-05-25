@@ -59,6 +59,7 @@ class Image implements Serializable
         return $this->imageFile;
     }
 
+
     public function setImageName(?string $imageName): void
     {
         $this->imageName = $imageName;
@@ -125,5 +126,13 @@ class Image implements Serializable
     public function unserialize(string $data)
     {
         // TODO: Implement unserialize() method.
+    }public function __serialize():array
+    {
+        return [
+           'id'=>$this->id
+        ];
+    }public function __unserialize($data)
+    {
+     // TODO: Implement unserialize() method.
     }
 }

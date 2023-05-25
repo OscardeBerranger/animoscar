@@ -39,4 +39,18 @@ class CommentController extends AbstractController
             'commentForm'=>$form
         ]);
     }
+
+    #[Route('/comment/delete/{id}', name: 'app_comment_delete')]
+    public function delete(Comment $comment, EntityManagerInterface $manager){
+        $redirectId = $comment->getProduit()->getId();
+        if (!$this->getUser()){
+            $this->addFlash('danger', 'Vous devez être connecté afin de supprimer un commentaire');
+            return $this->redirectToRoute('app_login');
+        }
+        if ($comment){
+            $manager->remove($comment);
+            $manager->flush();
+        }
+        return $this->redirectToRoute('produit_show', ['id'=>$redirectId]);
+    }
 }
